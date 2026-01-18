@@ -19,8 +19,24 @@ public class BoxController : MonoBehaviour
         numberText.text = number.ToString();
     }
 
+    // ボックスがクリックされた時の処理
     public void OnClickBox()
     {
         gameManager.onNumberReceived(number);
+        ToggleVisibility();
+    }
+
+    // ボックスの表示・非表示を切り替える
+    private void ToggleVisibility()
+    {
+        bool isVisible = boxImage.gameObject.activeSelf;
+        if (isVisible)
+        {
+            boxImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            boxImage.gameObject.SetActive(true);
+        }
     }
 }
