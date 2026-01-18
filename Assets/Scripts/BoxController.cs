@@ -8,6 +8,7 @@ public class BoxController : MonoBehaviour
     [SerializeField] private Image boxImage;
     [SerializeField] private TextMeshProUGUI numberText;
 
+
     private void Update()
     {
         
