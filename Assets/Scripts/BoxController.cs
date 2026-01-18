@@ -8,17 +8,9 @@ public class BoxController : MonoBehaviour
     [SerializeField] private Image boxImage;
     [SerializeField] private TextMeshProUGUI numberText;
 
-    private float timeCounter = 0f;
-
     private void Update()
     {
-        timeCounter += Time.deltaTime;
-
-        if (timeCounter > 0.5)
-        {
-            ToggleVisibility();
-            timeCounter = 0;
-        }
+        
     }
 
     // 数字の設定
