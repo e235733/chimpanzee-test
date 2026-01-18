@@ -22,7 +22,7 @@ public class BoxController : MonoBehaviour
     // ボックスがクリックされた時の処理
     public void OnClickBox()
     {
-        gameManager.onNumberReceived(number);
+        gameManager.OnNumberReceived(number);
         ToggleVisibility();
     }
 
