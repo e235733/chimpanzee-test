@@ -9,11 +9,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float space;
     [SerializeField] private int spawnCount;
 
-    // 置かれた場所を記録
-    List<Vector2> placedPositions = new List<Vector2>();
+    // numberBox の場所とスクリプト
+    private List<Vector2> placedPositions = new List<Vector2>();
+    private List<BoxController> boxControllers = new List<BoxController>();
 
-    float rangeX;
-    float rangeY;
+    private float rangeX;
+    private float rangeY;
 
     void Start()
     {    
@@ -36,6 +37,8 @@ public class LevelManager : MonoBehaviour
             // コンポーネントの取得
             BoxController boxController = numberBox.GetComponent<BoxController>();
             RectTransform rectT = numberBox.GetComponent<RectTransform>();
+            // スクリプトの参照を保存
+            boxControllers.Add(boxController);
 
             float x;
             float y;
@@ -72,6 +75,26 @@ public class LevelManager : MonoBehaviour
             placedPositions.Add(position);
 
             boxController.Setup(i, this);
+        }
+    }
+
+    // すべての数値を隠す
+    [ContextMenu("Hide All Numbers")]
+    private void HideAllNumbers()
+    {
+        foreach(BoxController bc in boxControllers)
+        {
+            bc.HideNumber();
+        }
+    }
+
+    // すべての数値を公開する
+    [ContextMenu("Show All Numbers")]
+    private void ShowAllNumbers()
+    {
+        foreach(BoxController bc in boxControllers)
+        {
+            bc.ShowNumber();
         }
     }
 
