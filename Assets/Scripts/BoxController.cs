@@ -8,13 +8,13 @@ public class BoxController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI numberText;
 
     private int number = 0;
-    private GameManager gameManager;
+    private LevelManager levelManager;
 
     // instantiate 時に呼び出す設定
-    public void Setup(int _number, GameManager _gameManager)
+    public void Setup(int _number, LevelManager _levelManager)
     {
         number = _number;
-        gameManager = _gameManager;
+        levelManager = _levelManager;
 
         numberText.text = number.ToString();
     }
@@ -22,7 +22,7 @@ public class BoxController : MonoBehaviour
     // ボックスがクリックされた時の処理
     public void OnClickBox()
     {
-        gameManager.onNumberReceived(number);
+        levelManager.OnNumberReceived(number);
         ToggleVisibility();
     }
 
