@@ -552,6 +552,7 @@ MonoBehaviour:
   numberBoxPrefab: {fileID: 2723719085041483311, guid: 5f4991e3f8497493cb4fe8c7b8890b02, type: 3}
   canvas: {fileID: 574059315}
   padding: 200
+  space: 150
   spawnCount: 8
 --- !u!4 &1805232935
 Transform:
