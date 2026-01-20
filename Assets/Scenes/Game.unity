@@ -551,9 +551,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   numberBoxPrefab: {fileID: 2723719085041483311, guid: 5f4991e3f8497493cb4fe8c7b8890b02, type: 3}
   canvas: {fileID: 574059315}
-  padding: 200
+  padding: 100
   space: 150
-  spawnCount: 8
+  spawnCount: 5
 --- !u!4 &1805232935
 Transform:
   m_ObjectHideFlags: 0

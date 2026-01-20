@@ -9,21 +9,27 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float space;
     [SerializeField] private int spawnCount;
 
-    // 置かれた場所を記録
-    List<Vector2> placedPositions = new List<Vector2>();
+    // numberBox の場所とスクリプト
+    private List<Vector2> placedPositions = new List<Vector2>();
+    private List<BoxController> boxControllers = new List<BoxController>();
 
-    float rangeX;
-    float rangeY;
+    private float rangeX;
+    private float rangeY;
+
+    // 正解の値
+    private int expectedNumber;
 
     void Start()
     {    
         // キャンバスから中心からの範囲を計算
         float areaWidth = canvas.rect.width;
         float areaHeight = canvas.rect.height;
-        rangeX = (areaWidth / 2) - (padding / 2);
-        rangeY = (areaHeight / 2) - (padding / 2);
+        rangeX = (areaWidth / 2) - padding;
+        rangeY = (areaHeight / 2) - padding;
         // GenerateTest();
         GenerateBoxes();
+
+        expectedNumber = 0;
     }
 
     private void GenerateBoxes()
@@ -36,6 +42,8 @@ public class LevelManager : MonoBehaviour
             // コンポーネントの取得
             BoxController boxController = numberBox.GetComponent<BoxController>();
             RectTransform rectT = numberBox.GetComponent<RectTransform>();
+            // スクリプトの参照を保存
+            boxControllers.Add(boxController);
 
             float x;
             float y;
@@ -78,7 +86,40 @@ public class LevelManager : MonoBehaviour
     // 数値が送られてきたときの処理
     public void OnNumberReceived(int number)
     {
-        Debug.Log($"received: {number}");
+        Debug.Log($"received: {number}, expected: {expectedNumber}");
+        // 正解した場合
+        if (number == expectedNumber)
+        {
+            Debug.Log("Correct!");
+            // 次の数値を設定
+            expectedNumber++;
+        }
+        // 不正解の場合
+        else
+        {
+            Debug.Log("Incorrect!");
+            ShowAllNumbers();
+        }
+    }
+
+    // すべての数値を隠す
+    [ContextMenu("Hide All Numbers")]
+    private void HideAllNumbers()
+    {
+        foreach(BoxController bc in boxControllers)
+        {
+            bc.HideNumber();
+        }
+    }
+
+    // すべての数値を公開する
+    [ContextMenu("Show All Numbers")]
+    private void ShowAllNumbers()
+    {
+        foreach(BoxController bc in boxControllers)
+        {
+            bc.ShowNumber();
+        }
     }
 
     [ContextMenu("Run Layout Test")]
