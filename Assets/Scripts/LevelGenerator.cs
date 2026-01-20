@@ -16,15 +16,20 @@ public class LevelManager : MonoBehaviour
     private float rangeX;
     private float rangeY;
 
+    // 正解の値
+    private int expectedNumber;
+
     void Start()
     {    
         // キャンバスから中心からの範囲を計算
         float areaWidth = canvas.rect.width;
         float areaHeight = canvas.rect.height;
-        rangeX = (areaWidth / 2) - (padding / 2);
-        rangeY = (areaHeight / 2) - (padding / 2);
+        rangeX = (areaWidth / 2) - padding;
+        rangeY = (areaHeight / 2) - padding;
         // GenerateTest();
         GenerateBoxes();
+
+        expectedNumber = 0;
     }
 
     private void GenerateBoxes()
@@ -78,6 +83,25 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    // 数値が送られてきたときの処理
+    public void OnNumberReceived(int number)
+    {
+        Debug.Log($"received: {number}, expected: {expectedNumber}");
+        // 正解した場合
+        if (number == expectedNumber)
+        {
+            Debug.Log("Correct!");
+            // 次の数値を設定
+            expectedNumber++;
+        }
+        // 不正解の場合
+        else
+        {
+            Debug.Log("Incorrect!");
+            ShowAllNumbers();
+        }
+    }
+
     // すべての数値を隠す
     [ContextMenu("Hide All Numbers")]
     private void HideAllNumbers()
@@ -96,12 +120,6 @@ public class LevelManager : MonoBehaviour
         {
             bc.ShowNumber();
         }
-    }
-
-    // 数値が送られてきたときの処理
-    public void OnNumberReceived(int number)
-    {
-        Debug.Log($"received: {number}");
     }
 
     [ContextMenu("Run Layout Test")]
