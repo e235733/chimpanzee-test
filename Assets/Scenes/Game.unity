@@ -1032,7 +1032,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 657651931}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 823354337}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnClickStartButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &657651931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,8 +1112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6612ae82004444e6496767b2062f3813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  startPanel: {fileID: 0}
-  endPanel: {fileID: 0}
+  startPanel: {fileID: 70785672}
+  endPanel: {fileID: 536534555}
+  levelManager: {fileID: 1805232934}
+  resultText: {fileID: 1168502982}
 --- !u!4 &823354338
 Transform:
   m_ObjectHideFlags: 0
@@ -1523,7 +1537,7 @@ GameObject:
   - component: {fileID: 1805232935}
   - component: {fileID: 1805232934}
   m_Layer: 0
-  m_Name: LevelGenerator
+  m_Name: LevelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1546,6 +1560,7 @@ MonoBehaviour:
   padding: 100
   space: 150
   spawnCount: 5
+  gameManager: {fileID: 823354337}
 --- !u!4 &1805232935
 Transform:
   m_ObjectHideFlags: 0

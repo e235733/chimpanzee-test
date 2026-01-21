@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float padding;
     [SerializeField] private float space;
     [SerializeField] private int spawnCount;
+    [SerializeField] private GameManager gameManager;
 
     // numberBox の場所とスクリプト
     private List<Vector2> placedPositions = new List<Vector2>();
@@ -20,22 +21,29 @@ public class LevelManager : MonoBehaviour
     private int expectedNumber;
 
     void Start()
-    {    
+    {
         // キャンバスから中心からの範囲を計算
         float areaWidth = canvas.rect.width;
         float areaHeight = canvas.rect.height;
         rangeX = (areaWidth / 2) - padding;
         rangeY = (areaHeight / 2) - padding;
-        // GenerateTest();
-        GenerateBoxes();
+    }
 
-        expectedNumber = 0;
+    // ゲームをスタートする
+    public void StartGame()
+    {
+        // numberBox　を作成
+        GenerateBoxes();
+        // 期待される数値をリセット
+        expectedNumber = 1;
+
+        // 3秒後に全ての数字を隠す
+        Invoke(nameof(HideAllNumbers), 3f);
     }
 
     private void GenerateBoxes()
     {
-
-        for (int i = 0; i < spawnCount; i++)
+        for (int i = 1; i <= spawnCount; i++)
         {
             // インスタンス化
             GameObject numberBox = Instantiate(numberBoxPrefab, canvas);
@@ -93,12 +101,19 @@ public class LevelManager : MonoBehaviour
             Debug.Log("Correct!");
             // 次の数値を設定
             expectedNumber++;
+            // 最後まで連続正解したら成功
+            if (number == spawnCount)
+            {
+                gameManager.Success();
+            }
         }
         // 不正解の場合
         else
         {
             Debug.Log("Incorrect!");
             ShowAllNumbers();
+            // 失敗
+            gameManager.Failed();
         }
     }
 
