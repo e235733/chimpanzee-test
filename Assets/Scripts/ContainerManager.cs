@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class ContainerManager : MonoBehaviour
 {
     [SerializeField] private GameObject numberBoxPrefab;
-    [SerializeField] private RectTransform canvas;
     [SerializeField] private float padding;
     [SerializeField] private float space;
-    [SerializeField] private int spawnCount;
+    private int spawnCount;
+    private GameManager gameManager;
+    private RectTransform container;
+
 
     // numberBox の場所とスクリプト
     private List<Vector2> placedPositions = new List<Vector2>();
@@ -20,25 +22,42 @@ public class LevelManager : MonoBehaviour
     private int expectedNumber;
 
     void Start()
-    {    
+    {
+        container = gameObject.GetComponent<RectTransform>();
         // キャンバスから中心からの範囲を計算
-        float areaWidth = canvas.rect.width;
-        float areaHeight = canvas.rect.height;
+        float areaWidth = container.rect.width;
+        float areaHeight = container.rect.height;
         rangeX = (areaWidth / 2) - padding;
         rangeY = (areaHeight / 2) - padding;
-        // GenerateTest();
-        GenerateBoxes();
+        // ゲームの開始
+        StartLevel();
+    }
 
-        expectedNumber = 0;
+    // 作成時の設定
+    public void Setup(GameManager _gameManager, int _spawnCount)
+    {
+        gameManager = _gameManager;
+        spawnCount = _spawnCount;
+    }
+
+    // ゲームをスタートする
+    private void StartLevel()
+    {
+        // numberBox　を作成
+        GenerateBoxes();
+        // 期待される数値をリセット
+        expectedNumber = 1;
+
+        // 3秒後に全ての数字を隠す
+        Invoke(nameof(HideAllNumbers), 3f);
     }
 
     private void GenerateBoxes()
     {
-
-        for (int i = 0; i < spawnCount; i++)
+        for (int i = 1; i <= spawnCount; i++)
         {
             // インスタンス化
-            GameObject numberBox = Instantiate(numberBoxPrefab, canvas);
+            GameObject numberBox = Instantiate(numberBoxPrefab, container);
             // コンポーネントの取得
             BoxController boxController = numberBox.GetComponent<BoxController>();
             RectTransform rectT = numberBox.GetComponent<RectTransform>();
@@ -79,7 +98,7 @@ public class LevelManager : MonoBehaviour
             rectT.anchoredPosition = position;
             placedPositions.Add(position);
 
-            boxController.Setup(i, this);
+            boxController.Setup(this, i);
         }
     }
 
@@ -93,12 +112,19 @@ public class LevelManager : MonoBehaviour
             Debug.Log("Correct!");
             // 次の数値を設定
             expectedNumber++;
+            // 最後まで連続正解したら成功
+            if (number == spawnCount)
+            {
+                gameManager.Success();
+            }
         }
         // 不正解の場合
         else
         {
             Debug.Log("Incorrect!");
             ShowAllNumbers();
+            // 失敗
+            gameManager.Failure();
         }
     }
 
@@ -126,17 +152,17 @@ public class LevelManager : MonoBehaviour
     private void GenerateTest()
     {
         // padding テスト用で四隅に配置
-        GameObject topLeft = Instantiate(numberBoxPrefab, canvas);
-        GameObject topRight = Instantiate(numberBoxPrefab, canvas);
-        GameObject bottomLeft = Instantiate(numberBoxPrefab, canvas);
-        GameObject bottomRight = Instantiate(numberBoxPrefab, canvas);
+        GameObject topLeft = Instantiate(numberBoxPrefab, container);
+        GameObject topRight = Instantiate(numberBoxPrefab, container);
+        GameObject bottomLeft = Instantiate(numberBoxPrefab, container);
+        GameObject bottomRight = Instantiate(numberBoxPrefab, container);
         topLeft.GetComponent<RectTransform>().anchoredPosition = new Vector2(-rangeX, rangeY);
         topRight.GetComponent<RectTransform>().anchoredPosition = new Vector2(rangeX, rangeY);
         bottomLeft.GetComponent<RectTransform>().anchoredPosition = new Vector2(-rangeX, -rangeY);
         bottomRight.GetComponent<RectTransform>().anchoredPosition = new Vector2(rangeX, -rangeY);
 
         // space テスト用で左上の隣に配置
-        GameObject nextTopLeft = Instantiate(numberBoxPrefab, canvas);
+        GameObject nextTopLeft = Instantiate(numberBoxPrefab, container);
         nextTopLeft.GetComponent<RectTransform>().anchoredPosition = new Vector2(-rangeX + space, rangeY);
     }
 }

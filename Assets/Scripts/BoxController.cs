@@ -8,15 +8,15 @@ public class BoxController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI numberText;
 
     private int number = 0;
-    private LevelManager levelManager;
+    private ContainerManager containerManager;
     // クリックされたか
     private bool hasClicked = true;
 
     // instantiate 時に呼び出す設定
-    public void Setup(int _number, LevelManager _levelManager)
+    public void Setup(ContainerManager _containerManager, int _number)
     {
         number = _number;
-        levelManager = _levelManager;
+        containerManager = _containerManager;
         // 数値を Text に設定
         numberText.text = number.ToString();
         // box を非表示
@@ -30,7 +30,7 @@ public class BoxController : MonoBehaviour
         if (!hasClicked)
         {
             // 数値を送信
-            levelManager.OnNumberReceived(number);
+            containerManager.OnNumberReceived(number);
             // box を非表示
             boxImage.gameObject.SetActive(false);
             // クリック済みにする
