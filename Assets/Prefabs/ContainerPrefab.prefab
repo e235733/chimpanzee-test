@@ -49,8 +49,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
   numberBoxPrefab: {fileID: 2723719085041483311, guid: 5f4991e3f8497493cb4fe8c7b8890b02, type: 3}
-  container: {fileID: 0}
-  padding: 100
-  space: 150
-  spawnCount: 8
-  gameManager: {fileID: 0}
+  padding: 200
+  space: 250
