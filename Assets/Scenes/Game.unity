@@ -1154,6 +1154,8 @@ MonoBehaviour:
   endPanel: {fileID: 536534555}
   resultText: {fileID: 1168502982}
   containerPrefab: {fileID: 8696888241947689132, guid: 63c14db7e1666430a87dd908f813117e, type: 3}
+  startLevel: 3
+  maxLevel: 10
 --- !u!4 &823354338
 Transform:
   m_ObjectHideFlags: 0

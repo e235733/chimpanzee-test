@@ -115,7 +115,7 @@ public class ContainerManager : MonoBehaviour
             // 最後まで連続正解したら成功
             if (number == spawnCount)
             {
-                gameManager.Success();
+                gameManager.IsLevelCleard(true);
             }
         }
         // 不正解の場合
@@ -124,7 +124,7 @@ public class ContainerManager : MonoBehaviour
             Debug.Log("Incorrect!");
             ShowAllNumbers();
             // 失敗
-            gameManager.Failure();
+            gameManager.IsLevelCleard(false);
         }
     }
 
